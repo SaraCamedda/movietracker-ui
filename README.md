@@ -1,41 +1,47 @@
-## Application Details
-|               |
-| ------------- |
-|**Generation Date and Time**<br>Tue Jun 23 2026 10:08:23 GMT+0000 (Coordinated Universal Time)|
-|**App Generator**<br>SAP Fiori Application Generator|
-|**App Generator Version**<br>1.27.0|
-|**Generation Platform**<br>SAP Business Application Studio|
-|**Template Used**<br>Basic V4|
-|**Service Type**<br>OData URL|
-|**Service URL**<br>https://cbfaad7ctrial-dev-movietracker-srv.cfapps.us10-001.hana.ondemand.com/movies/|
-|**Module Name**<br>movietrackerui|
-|**Application Title**<br>MovieTracker|
-|**Namespace**<br>it.accenture.movietracker|
-|**UI5 Theme**<br>sap_horizon|
-|**UI5 Version**<br>1.149.0|
-|**Enable TypeScript**<br>False|
-|**Add Eslint configuration**<br>True, see https://www.npmjs.com/package/@sap-ux/eslint-plugin-fiori-tools#rules for the eslint rules.|
+# MovieTracker — Frontend UI5
 
-## movietrackerui
+App SAPUI5 freestyle per consumare il backend MovieTracker CAP.
 
-Lista film con CAP backend su HANA Cloud
+## Stack tecnologico
+- SAPUI5 1.149+
+- OData V4 Model
+- sap.m + sap.ui.table
 
-### Starting the generated app
+## Setup locale
 
--   This app has been generated using the SAP Fiori tools - App Generator, as part of the SAP Fiori tools suite.  To launch the generated application, run the following from the generated application root folder:
+### Prerequisiti
+- Node.js 20+
+- Backend MovieTracker deployato e raggiungibile
 
-```
-    npm start
-```
+### Installazione
+\`\`\`bash
+git clone https://github.com/SaraCamedda/movietracker-ui.git
+cd movietracker-ui
+npm install
+\`\`\`
 
-- It is also possible to run the application using mock data that reflects the OData Service URL supplied during application generation.  In order to run the application with Mock Data, run the following from the generated app root folder:
+### Configura l'endpoint backend
+Apri `webapp/manifest.json` → `dataSources.mainService.uri` 
+e inserisci l'URL del tuo backend CAP deployato:
+\`\`\`
+https://<tuo-host>-movietracker-srv.cfapps.<region>.hana.ondemand.com/movies/
+\`\`\`
 
-```
-    npm run start-mock
-```
+### Avvio
+\`\`\`bash
+npm run start-noflp
+\`\`\`
+Apri http://localhost:8080
 
-#### Pre-requisites:
+## Funzionalità
+- Lista film con ordinamento per anno
+- Ricerca per titolo, regista, genere
+- Visualizzazione recensioni con dialog
+- CRUD film (Crea / Modifica / Elimina)
+- Marca come visto
 
-1. Active NodeJS LTS (Long Term Support) version and associated supported NPM version.  (See https://nodejs.org)
+## Backend
+https://github.com/SaraCamedda/movietracker-cap
 
-
+## Autore
+Sara Camedda — Corso SAP BTP 2026
