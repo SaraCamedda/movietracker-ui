@@ -1,0 +1,22 @@
+# CAP / HANA credentials
+default-env.json
+.cdsrc-private.json
+*-credentials.json
+
+# SQLite locale (se mai testassi in locale)
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDE / OS
+.vscode/
+.DS_Store
+Thumbs.db
+
+# UI5 build output
+webapp/resources/
+webapp/test-resources/

@@ -1,0 +1,85 @@
+<mvc:View controllerName="it.accenture.movietracker.movietrackerui.controller.MovieList"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core" displayBlock="true">
+    <Page id="page" title="{i18n>title}" class="sapUiContentPadding">
+        <content>
+            <Toolbar>
+                <Title text="🎬 La mia lista film" level="H2" />
+                <ToolbarSpacer />
+                <SearchField width="350px" placeholder="Cerca per titolo, regista o genere..." liveChange=".onSearch" />
+            </Toolbar>
+
+            <Table id="moviesTable" items="{
+        path: '/Movies',
+        parameters: { 
+            '$orderby': 'year desc',
+            '$expand': 'review'
+        }
+    }" growing="true" growingThreshold="20" class="sapUiNoMargin sapUiNoContentPadding">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="Film ({moviesTable>/$count})" />
+                        <ToolbarSpacer />
+                    </Toolbar>
+                </headerToolbar>
+
+
+                <columns>
+                    <Column width="6em">
+                        <Text text="Stato"/>
+                    </Column>
+                    <Column>
+                        <Text text="Titolo"/>
+                    </Column>
+                    <Column>
+                        <Text text="Regista"/>
+                    </Column>
+                    <Column>
+                        <Text text="Anno"/>
+                    </Column>
+                    <Column>
+                        <Text text="Genere"/>
+                    </Column>
+                     <Column>
+                        <Text text="Voto"/>
+                    </Column>
+                    <Column>
+                        <Text text="Commento"/>
+                    </Column>
+                    <Column hAlign="Center">
+                        <Text text="Azione"/>
+                    </Column>
+                </columns>
+
+
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <core:Icon src="{= ${status} === 'WATCHED' ? 'sap-icon://accept' : 'sap-icon://pending' }" color="{= ${status} === 'WATCHED' ? 'Positive' : 'Critical' }" size="1.5rem" tooltip="{status}"/>
+
+                            <Text text="{title}"/>
+                            <Text text="{director}"/>
+                            <Text text="{
+                path: 'year',
+                type: 'sap.ui.model.type.Integer',
+                formatOptions: { groupingEnabled: false }
+            }"/>
+                            <ObjectStatus text="{genre}" state="Information" inverted="true" class="noBreakGenre"/>
+
+                             <!-- NUOVA: Rating con stelline (read-only) -->
+                            <RatingIndicator value="{review/rating}" maxValue="5" editable="false" visible="{= ${review/rating} !== null }" tooltip="{review/rating} stelle"/>
+
+                            <!-- NUOVA: Commento (tronca con tooltip) -->
+                            <Text text="{review/comment}" maxLines="2" tooltip="{review/comment}"/>
+
+
+                            <Button text="{= ${status} === 'WATCHED' ? 'Modifica' : 'Visto!' }" type="{= ${status} === 'WATCHED' ? 'Default' : 'Emphasized' }" icon="{= ${status} === 'WATCHED' ? 'sap-icon://edit' : 'sap-icon://accept' }" press=".onMarkAsWatched"/>
+
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>

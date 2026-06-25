@@ -1,0 +1,118 @@
+{
+  "_version": "1.85.0",
+  "sap.app": {
+    "id": "it.accenture.movietracker.movietrackerui",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.27.0",
+      "toolsId": "73f89919-5943-42bd-99e4-dbb1fbee1769"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/movies/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.149.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "it.accenture.movietracker.movietrackerui.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "it.accenture.movietracker.movietrackerui.view",
+        "async": true,
+        "viewPath": "it.accenture.movietracker.movietrackerui.view"
+      },
+      "routes": [
+        {
+          "name": "RouteMovieList",
+          "pattern": ":?query:",
+          "target": [
+            "TargetMovieList"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetMovieList": {
+          "id": "MovieList",
+          "name": "MovieList"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "it.accenture.movietracker.movietrackerui.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  }
+}

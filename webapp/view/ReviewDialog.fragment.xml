@@ -1,0 +1,55 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout">
+
+    <Dialog
+        id="reviewDialog"
+        title="🎬 Aggiungi recensione"
+        contentWidth="500px"
+        class="sapUiResponsivePadding">
+
+        <content>
+            <l:VerticalLayout width="100%" class="sapUiContentPadding">
+                
+                <Label text="Film:" design="Bold"/>
+                <Text id="dialogMovieTitle" text=""/>
+
+                <Label text="Il tuo voto" design="Bold" class="sapUiSmallMarginTop"/>
+                <RatingIndicator 
+                    id="dialogRating"
+                    maxValue="5"
+                    value="0"
+                    iconSize="2rem"/>
+
+                <Label text="Commento" design="Bold" class="sapUiSmallMarginTop"/>
+                <TextArea
+                    id="dialogComment"
+                    rows="4"
+                    width="100%"
+                    placeholder="Cosa ne pensi del film?"/>
+
+                <Label text="Data visione" design="Bold" class="sapUiSmallMarginTop"/>
+                <DatePicker
+                    id="dialogWatchedOn"
+                    width="100%"
+                    valueFormat="yyyy-MM-dd"
+                    displayFormat="dd/MM/yyyy"/>
+
+            </l:VerticalLayout>
+        </content>
+
+        <buttons>
+            <Button 
+                text="Salva" 
+                type="Emphasized" 
+                icon="sap-icon://save"
+                press=".onSaveReview"/>
+            <Button 
+                text="Annulla" 
+                press=".onCancelReview"/>
+        </buttons>
+
+    </Dialog>
+
+</core:FragmentDefinition>

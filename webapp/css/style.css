@@ -1,0 +1,4 @@
+.noBreakGenre .sapMObjStatusText {
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+}
