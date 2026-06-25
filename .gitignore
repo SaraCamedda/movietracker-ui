@@ -20,3 +20,4 @@ Thumbs.db
 # UI5 build output
 webapp/resources/
 webapp/test-resources/
+node_modules/
