@@ -1,0 +1,96 @@
+<mvc:View
+    controllerName="it.accenture.movietracker.movietrackerui.controller.MovieDetail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+>
+    <Page
+        id="detailPage"
+        title="{title}"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+    >
+        <content>
+            <ObjectHeader
+                title="{title}"
+                responsive="true"
+                fullScreenOptimized="true"
+                icon="sap-icon://video"
+                iconDensityAware="false"
+                intro="{director}"
+            >
+                <statuses>
+                    <ObjectStatus
+                        text="{= ${status} === 'WATCHED' ? 'Visto' : 'Da vedere' }"
+                        state="{= ${status} === 'WATCHED' ? 'Success' : 'Warning' }"
+                        icon="{= ${status} === 'WATCHED' ? 'sap-icon://accept' : 'sap-icon://pending' }"
+                    />
+                </statuses>
+
+                <attributes>
+                    <ObjectAttribute
+                        title="Anno"
+                        text="{year}"
+                    />
+                    <ObjectAttribute
+                        title="Genere"
+                        text="{genre}"
+                    />
+                </attributes>
+            </ObjectHeader>
+
+            <Panel
+                headerText="Recensione"
+                expandable="true"
+                expanded="true"
+                width="95%"
+                class="sapUiMediumMargin"
+            >
+                <VBox
+                    class="sapUiSmallMargin"
+                    visible="{= !!${review} }"
+                >
+                    <HBox
+                        justifyContent="SpaceBetween"
+                        alignItems="Center"
+                        class="sapUiSmallMarginBottom"
+                    >
+                        <Label
+                            text="Valutazione:"
+                            design="Bold"
+                        />
+                        <RatingIndicator
+                            value="{review/rating}"
+                            maxValue="5"
+                            editable="false"
+                            tooltip="{review/rating} stelle"
+                        />
+                    </HBox>
+                    <Label
+                        text="Commento:"
+                        design="Bold"
+                    />
+                    <Text text="{review/comment}" />
+                </VBox>
+                <Text
+                    text="Nessuna recensione disponibile"
+                    visible="{= !${review} }"
+                />
+            </Panel>
+        </content>
+
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer />
+                <Button
+                    text="Marca come visto"
+                    icon="sap-icon://accept"
+                    type="Emphasized"
+                    press=".onMarkAsWatched"
+                    visible="{= ${status} !== 'WATCHED' }"
+                />
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>

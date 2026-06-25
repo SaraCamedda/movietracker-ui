@@ -146,6 +146,16 @@ sap.ui.define([
 
         onCancelReview: function () {
             this._oReviewDialog.close();
+        },
+
+        onMoviePress: function (oEvent) {
+            var oItem = oEvent.getSource();
+            var oContext = oItem.getBindingContext();
+            var sMovieId = oContext.getProperty("ID");
+
+            this.getOwnerComponent().getRouter().navTo("RouteMovieDetail", {
+                movieId: sMovieId
+            });
         }
 
     });
