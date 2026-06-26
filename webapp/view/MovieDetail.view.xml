@@ -79,12 +79,11 @@
         <footer>
             <Toolbar>
                 <ToolbarSpacer />
-                <Button
-                    text="Marca come visto"
-                    icon="sap-icon://accept"
-                    type="Emphasized"
+                 <Button
+                    text="{= ${status} === 'WATCHED' ? 'Modifica review' : 'Visto!' }"
+                    type="{= ${status} === 'WATCHED' ? 'Default' : 'Emphasized' }"
+                    icon="{= ${status} === 'WATCHED' ? 'sap-icon://edit' : 'sap-icon://accept' }"
                     press=".onMarkAsWatched"
-                    visible="{= ${status} !== 'WATCHED' }"
                 />
             </Toolbar>
         </footer>
