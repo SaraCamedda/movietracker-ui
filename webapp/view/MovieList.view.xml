@@ -23,6 +23,17 @@
                     placeholder="Cerca per titolo, regista o genere..."
                     change=".onSearch"
                 />
+                	<Select
+                    id="reviewField"
+					selectedKey="0" class="sapUiSmallMarginBegin"
+					change=".onFilterChange" width="150px">
+					<core:Item key="0" text="Tutte" />
+					<core:Item key="1" text="⭐" />
+					<core:Item key="2" text="⭐⭐" />
+					<core:Item key="3" text="⭐⭐⭐" />
+					<core:Item key="4" text="⭐⭐⭐⭐" />
+					<core:Item key="5" text="⭐⭐⭐⭐⭐" />
+				</Select>
             </Toolbar>
 
             <Table

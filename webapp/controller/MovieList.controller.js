@@ -43,6 +43,7 @@ sap.ui.define([
         _applyFilters: function () {
             const oView = this.getView();
             const sQuery = oView.byId("searchField").getValue();
+            const sReviewQuery = parseInt(oView.byId("reviewField").getSelectedKey(), 10);
 
             const aFilters = [];
 
@@ -59,6 +60,9 @@ sap.ui.define([
                 aFilters.push(new Filter({ filters: aFieldFilters, and: false }));
             }
 
+            if (sReviewQuery > 0) {
+                  aFilters.push(new Filter("review/rating", FilterOperator.EQ, sReviewQuery));
+            }
 
             this.byId("moviesTable").getBinding("items").filter(aFilters);
         },
