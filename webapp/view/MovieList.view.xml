@@ -17,7 +17,7 @@
                     level="H2"
                 />
                 <ToolbarSpacer />
-                <SearchField
+                <SearchField 
                     id="searchField"
                     width="350px"
                     placeholder="Cerca per titolo, regista o genere..."
