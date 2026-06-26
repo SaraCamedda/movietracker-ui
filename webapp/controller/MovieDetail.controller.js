@@ -1,8 +1,9 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/m/MessageToast",
-    "sap/ui/core/Fragment"
-], function (Controller, MessageToast, Fragment) {
+    "sap/ui/core/Fragment",
+    "sap/m/MessageBox"
+], function (Controller, MessageToast, Fragment, MessageBox) {
     "use strict";
 
     return Controller.extend("it.accenture.movietracker.movietrackerui.controller.MovieDetail", {
@@ -53,9 +54,13 @@ sap.ui.define([
             });
         }*/
 
-              onMarkAsWatched: function (oEvent) {
-            const oButton = oEvent.getSource();
-            const oContext = oButton.getBindingContext();
+        onMarkAsWatched: function () {
+            const oContext = this.getView().getBindingContext();
+
+            if (!oContext) {
+                MessageToast.show("Nessun film selezionato");
+                return;
+            }
 
             this._currentMovieContext = oContext;
 
@@ -77,7 +82,7 @@ sap.ui.define([
         },
 
 
-         _openReviewDialog: function () {
+        _openReviewDialog: function () {
             const oContext = this._currentMovieContext;
             const oMovieData = oContext.getObject();
 
@@ -115,68 +120,39 @@ sap.ui.define([
             }
 
             const oModel = this.getView().getModel();
-            const oReview = oMovieData.review;
 
             try {
-                if (oReview && oReview.ID) {
-                    /**
-                     * CASO 1:
-                     * Il film ha già una review.
-                     * Quindi aggiorno la review esistente.
-                     */
+                // 1. CREATE Review
+                const oReviewListBinding = oModel.bindList("/Reviews");
 
-                    const sReviewPath = "/Reviews(ID=" + oReview.ID + ")";
-                    const oReviewBinding = oModel.bindContext(sReviewPath);
+                const oNewReview = oReviewListBinding.create({
+                    rating: iRating,
+                    comment: sComment,
+                    watchedOn: sWatchedOn,
+                    movie_ID: oMovieData.ID
+                });
 
-                    await oReviewBinding.requestObject();
+                // Aspetta che la review sia stata creata sul server
+                await oNewReview.created();
 
-                    const oReviewContext = oReviewBinding.getBoundContext();
+                const sReviewID = oNewReview.getProperty("ID");
 
-                    oReviewContext.setProperty("rating", iRating);
-                    oReviewContext.setProperty("comment", sComment);
-                    oReviewContext.setProperty("watchedOn", sWatchedOn);
+                // 2. UPDATE Movie
+                oContext.setProperty("status", "WATCHED");
+                oContext.setProperty("review_ID", sReviewID);
 
-                    await oModel.submitBatch(oModel.getUpdateGroupId());
+                // Forza il PATCH al server
+                await oModel.submitBatch(oModel.getUpdateGroupId());
 
-                    MessageToast.show("Recensione modificata!");
-                } else {
-                    /**
-                     * CASO 2:
-                     * Il film non ha ancora una review.
-                     * Creo la review e collego la review al film.
-                     */
-
-                    const oReviewListBinding = oModel.bindList("/Reviews");
-
-                    const oNewReview = oReviewListBinding.create({
-                        rating: iRating,
-                        comment: sComment,
-                        watchedOn: sWatchedOn,
-                        movie_ID: oMovieData.ID
-                    });
-
-                    await oNewReview.created();
-
-                    const sReviewID = oNewReview.getProperty("ID");
-
-                    oContext.setProperty("status", "WATCHED");
-                    oContext.setProperty("review_ID", sReviewID);
-
-                    await oModel.submitBatch(oModel.getUpdateGroupId());
-
-                    MessageToast.show("Recensione salvata!");
-                }
-
+                MessageToast.show("Recensione salvata! 🎬");
                 this._oReviewDialog.close();
 
-                oModel.refresh(true);
+                // 3. Refresh della DETAIL, non della tabella
+                const oElementBinding = this.getView().getElementBinding();
 
-                this.getView().bindElement({
-                    path: oContext.getPath(),
-                    parameters: {
-                        $expand: "review"
-                    }
-                });
+                if (oElementBinding) {
+                    oElementBinding.refresh();
+                }
 
             } catch (oError) {
                 MessageBox.error("Errore nel salvataggio: " + oError.message);

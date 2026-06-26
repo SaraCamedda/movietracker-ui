@@ -12,6 +12,21 @@ sap.ui.define([
 
         onInit: function () {
             this._currentMovieContext = null;
+
+            const oRouter = this.getOwnerComponent().getRouter();
+            oRouter.getRoute("RouteMovieList")
+                .attachPatternMatched(this._onRouteMatched, this);
+        },
+        
+        _onRouteMatched: function () {
+            var oTable = this.byId("moviesTable");
+
+            if (oTable) {
+                const oBinding = oTable.getBinding("items");
+                if (oBinding) {
+                    oBinding.refresh();
+                }
+            }
         },
 
         /**
