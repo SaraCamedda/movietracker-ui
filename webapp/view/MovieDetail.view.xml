@@ -73,10 +73,6 @@
                     />
                     <Text text="{review/comment}" />
                 </VBox>
-                <Text
-                    text="Nessuna recensione disponibile"
-                    visible="{= !${review} }"
-                />
             </Panel>
         </content>
 

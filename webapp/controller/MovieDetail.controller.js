@@ -1,7 +1,8 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/m/MessageToast"
-], function (Controller, MessageToast) {
+    "sap/m/MessageToast",
+    "sap/ui/core/Fragment"
+], function (Controller, MessageToast, Fragment) {
     "use strict";
 
     return Controller.extend("it.accenture.movietracker.movietrackerui.controller.MovieDetail", {
