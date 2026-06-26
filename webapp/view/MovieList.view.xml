@@ -41,7 +41,7 @@
                 items="{
         path: '/Movies',
         parameters: { 
-            '$orderby': 'year desc',
+            '$orderby': 'year asc',
             '$expand': 'review'
         }
     }"
