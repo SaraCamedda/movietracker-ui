@@ -17,10 +17,9 @@ sap.ui.define([
             oRouter.getRoute("RouteMovieList")
                 .attachPatternMatched(this._onRouteMatched, this);
         },
-        
+
         _onRouteMatched: function () {
             var oTable = this.byId("moviesTable");
-
             if (oTable) {
                 const oBinding = oTable.getBinding("items");
                 if (oBinding) {
@@ -32,11 +31,22 @@ sap.ui.define([
         /**
          * Search multi-campo case-insensitive
          */
-        onSearch: function (oEvent) {
-            const sQuery = oEvent.getParameter("newValue") || "";
-            const oTable = this.byId("moviesTable");
-            const oBinding = oTable.getBinding("items");
 
+        onSearch: function () {
+            this._applyFilters();
+        },
+
+        onFilterChange: function () {
+            this._applyFilters();
+        },
+
+        _applyFilters: function () {
+            const oView = this.getView();
+            const sQuery = oView.byId("searchField").getValue();
+
+            const aFilters = [];
+
+            // Ricerca testo (come avevi già tu)
             if (sQuery) {
                 const aFieldFilters = ["title", "director", "genre"].map(field =>
                     new Filter({
@@ -46,11 +56,13 @@ sap.ui.define([
                         caseSensitive: false
                     })
                 );
-                oBinding.filter([new Filter({ filters: aFieldFilters, and: false })]);
-            } else {
-                oBinding.filter([]);
+                aFilters.push(new Filter({ filters: aFieldFilters, and: false }));
             }
+
+
+            this.byId("moviesTable").getBinding("items").filter(aFilters);
         },
+
 
         /**
          * Click su bottone "Visto!" o "Modifica"
@@ -135,7 +147,7 @@ sap.ui.define([
                     movie_ID: oMovieData.ID
                 });
 
-                // ⭐ Aspetta che la review sia stata effettivamente creata sul server
+                // Aspetta che la review sia stata effettivamente creata sul server
                 await oNewReview.created();
                 const sReviewID = oNewReview.getProperty("ID");
 
@@ -143,7 +155,7 @@ sap.ui.define([
                 oContext.setProperty("status", "WATCHED");
                 oContext.setProperty("review_ID", sReviewID);
 
-                // ⭐ Submit del batch (forza il PATCH al server)
+                // Submit del batch (forza il PATCH al server)
                 await oModel.submitBatch(oModel.getUpdateGroupId());
 
                 MessageToast.show("Recensione salvata! 🎬");
