@@ -5,7 +5,7 @@
     <Page id="page" title="{i18n>title}" class="sapUiContentPadding">
         <content>
             <Toolbar>
-                <Title text="🎬 La mia lista film" level="H2" />
+                <Title text="🎬 La mia lista film visti e non" level="H2" />
                 <ToolbarSpacer />
                 <SearchField width="350px" placeholder="Cerca per titolo, regista o genere..." liveChange=".onSearch" />
             </Toolbar>
