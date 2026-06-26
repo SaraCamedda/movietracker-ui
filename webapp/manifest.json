@@ -99,13 +99,24 @@
           "target": [
             "TargetMovieList"
           ]
+        },
+        {
+            "pattern": "movie/{movieId}",
+            "name": "RouteMovieDetail",
+            "target": "TargetMovieDetail"
         }
+
       ],
       "targets": {
         "TargetMovieList": {
           "id": "MovieList",
           "name": "MovieList"
+        },
+        "TargetMovieDetail": {
+            "viewId": "MovieDetail",
+            "viewName": "MovieDetail"
         }
+
       }
     },
     "rootView": {
